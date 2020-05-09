@@ -3,18 +3,44 @@
 This is an example Django app that shows how to create a simple chat bot web
 app using [Django](https://ww.djangoproject.com) and [ChatterBot](https://github.com/gunthercox/ChatterBot).
 
-## Documentation
+## Quick Start
+
+Clone this repository:
+
+``` Bash
+git clone \<repo\>
+cd \<repo\>
+```
+
+Ramp up virtual environment (very much recommended)
+``` Bash
+python3 -m virtualenv venv
+source venv/bin/activate
+```
+
+Intall requirements
+``` Bash
+pip3 install -r requirements.txt
+```
+
+Generate a new Django SECRET_KEY, e.g. via https://miniwebtool.com/django-secret-key-generator
+Then:
+``` Bash
+export DJANGO_SECRET_KEY='<secret_key>'
+echo SECRET_KEY='<secret_key>' > .env
+```
+
+Django first-time initialization
+
+``` Bash
+python manage.py migrate --run-syncdb
+python manage.py migrate train
+```
 
 Start the Django app by running 
 
 ``` Bash
 python manage.py runserver 0.0.0.0:8000
-```
-
-If you running first time create chatterbot table before starting server
-
-``` Bash
-python manage.py migrate --run-syncdb
 ```
 
 Further documentation on getting set up with Django and ChatterBot can be found in the [ChatterBot documentation](http://chatterbiot.readthedocs.io/en/latest/django.html)
@@ -49,73 +75,46 @@ CHATTERBOT = {
 }
 ```
 
-If your app din't responding try to shift to postgresql, you will need install the ``dj_database_url`` package, to work nicely with PostgreSQL DB on heroku.
-
-And also you will modify your settings.py as follows:
-
-``` Python
-import dj_database_url
-DATABASES={'default': dj_database_url.config()}
-```
-
 ### Allowed Hosts
 Include your address at the ALLOWED_HOSTS directives in settings.py - Just the domain, make sure that you will take the protocol and slashes from the string
 
 for example
 ``` Python
-ALLOWED_HOSTS = ['127.0.0.1', 'chatterbot-live-example.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'chatterbot-demo.herokuapp.com']
 ```
-
+    
 ## Deploying on Heroku
 
-Before deploying Heroku you should install Heroku CLI on your machine, documentation found here https://devcenter.heroku.com/articles/heroku-cli
-
-Here some of the steps launch your Django app with Heroku
-
-### Build your app and run it locally
-
-``` bash
-pip install -r requirements.txt
-Downloading/unpacking ...
-...
-Successfully installed Django dj-database-url dj-static django-toolbelt gunicorn psycopg2 static3
-Cleaning up...
-```
-
-### To run your application locally,
-
-``` bash
-heroku local web
-11:48:19 web.1  | started with pid 36084
-11:48:19 web.1  | 2014-07-17 11:48:19 [36084] [INFO] Starting gunicorn 19.0.0
-11:48:19 web.1  | 2014-07-17 11:48:19 [36084] [INFO] Listening at: http://0.0.0.0:5000 (36084)
-11:48:19 web.1  | 2014-07-17 11:48:19 [36084] [INFO] Using worker: sync
-11:48:19 web.1  | 2014-07-17 11:48:19 [36087] [INFO] Booting worker with pid: 36087
-``` 
-Your app should now be running on http://localhost:5000/.
-
-### Deploy your application to Heroku
-
-``` Bash
-git add .
-
-git commit -m "Added a Procfile."
-
-heroku login
-Enter your Heroku credentials.
-...
+### Creating a new Heroku app
 
 heroku create
 Creating intense-falls-9163... done, stack is cedar
 http://intense-falls-9163.herokuapp.com/ | git@heroku.com:intense-falls-9163.git
 Git remote heroku added
 
+### Heroku CLI
+
+Before deploying Heroku you should install Heroku CLI on your machine, documentation found here https://devcenter.heroku.com/articles/heroku-cli
+
+Login:
+
+``` Bash
+heroku login
+```
+Enter your Heroku credentials.
+...
+
+### Deploying
+
+``` Bash
+git add .
+
+git commit -m "<comment>"
+
 git push heroku master
-...
------> Python app detected
-...
------> Launching... done, v7
-       https://intense-falls-9163.herokuapp.com/ deployed to Heroku
+
+heroku run python manage.py migrate
+heroku run python manage.py train
 ```
 
 A more detailed information can be found here https://devcenter.heroku.com/articles/deploying-python
