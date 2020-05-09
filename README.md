@@ -57,7 +57,8 @@ python manage.py train
 ```
 
 ## Training Corpus Path
-The chatterbot [corpus path](https://github.com/gunthercox/chatterbot-corpus/tree/master/chatterbot_corpus/data/english) can be found here.
+Chatterbot is a very flexible and dynamic chatbot that you easily can create your own training data and structure.    
+The chatterbot [corpus path](https://github.com/gunthercox/chatterbot-corpus) can be found here, well documented.
 
 ## Bot Django Settings
 You could found Bot settings [here](./example_app/settings.py)
@@ -122,3 +123,7 @@ A more detailed information can be found here https://devcenter.heroku.com/artic
 ## LICENSE
 ChatterBot Django Live Example is licensed under [BSD 3-clause](./license.md)
 
+## Similar works:
+
+- Simple chatbot in Python using NLTK and scikit-learn: https://github.com/LuciaLlavero/ryuzaki_bot   
+- Django + ChatterBot:  https://github.com/vkosuri/chatterbot-live-example    
