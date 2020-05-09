@@ -8,8 +8,8 @@ app using [Django](https://ww.djangoproject.com) and [ChatterBot](https://github
 Clone this repository:
 
 ``` Bash
-git clone \<repo\>
-cd \<repo\>
+git clone <repo>
+cd <repo>
 ```
 
 Ramp up virtual environment (very much recommended)
