@@ -7,3 +7,13 @@
     max-height:200px;
     overflow-y:scroll;
 }
+
+.brand_logo {
+    height: 61px;
+    width: 145px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 37px;
+    margin-bottom: 20px;
+}

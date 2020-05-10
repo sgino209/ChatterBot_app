@@ -1,115 +1,121 @@
 {% load staticfiles %}
+
 <!doctype html>
 <html>
-  <head>
-    <title>Newt ChatterBot Live Example</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}"/>
-  </head>
-  <body>
+  
+    <head>
+        <title>ChatterBot Live Example</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+        <link rel="stylesheet" href="{% static 'css/custom.css' %}"/>
+    </head>
+  
+    <body>
 
-    {% include 'nav.html' %}
+        {% include 'nav.html' %}
 
-    <div class="container">
+        <div class="container">
 
-      <div class="jumbotron mt-1">
-        <h1 class="jumbotron-heading text-xs-center">Newt ChatterBot Live Example</h1>
-        <p class="lead text-xs-center">
-          This is a web app that allows you to talk to ChatterBot.
-        </p>
+            <div class="jumbotron mt-1">
 
-        <hr class="my-2">
+                <img src="https://d2c8zk19igynh3.cloudfront.net/static/images/newt_logo.png" alt="newt_img" png class="brand_logo">
+                <h1 class="jumbotron-heading text-xs-center">ChatterBot Live Example</h1>
+                <p class="lead text-xs-center">This is a web app that allows you to talk to ChatterBot.</p>
 
-        <div class="row">
-          <div class="col-xs-6 offset-xs-3">
-            <ul class="list-group chat-log js-chat-log">
-            </ul>
+                <hr class="my-2">
 
-            <div class="input-group input-group-lg mt-1">
-              <input type="text" class="form-control js-text" placeholder="Type something to begin..."/>
-              <span class="input-group-btn">
-                <button class="btn btn-primary js-say">Submit</button>
-              </span>
-            </div>
-            
-          </div>
-        </div>
+                <div class="row">
+                    <div class="col-xs-6 offset-xs-3">
+                        <ul class="list-group chat-log js-chat-log">
+                            <!-- This is the main chat log, maintained by javascript -->
+                        </ul>
+                        <div class="input-group input-group-lg mt-1">
+                            <input type="text" class="form-control js-text" placeholder="Type something to begin..."/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary js-say">Submit</button>
+                            </span>
+                        </div>
+                    </div>
+                </div> <!-- row -->
 
-      </div>
+            </div> <!-- jumbotron -->
 
-    </div>
+        </div> <!-- container -->
 
-    <script src="{% static 'js/jquery.js' %}"></script>
-    <script src="{% static 'js/js.cookie.js' %}"></script>
-    <script src="{% static 'js/bootstrap.js' %}"></script>
-    <script>
-      var chatterbotUrl = '{% url "chatterbot:chatterbot" %}';
-      var csrftoken = Cookies.get('csrftoken');
+        <!-------------------------- J A V A S C R I P T -------------------------->
 
-      function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-      }
+        <script src="{% static 'js/jquery.js' %}"></script>
+        <script src="{% static 'js/js.cookie.js' %}"></script>
+        <script src="{% static 'js/bootstrap.js' %}"></script>
+        <script>
+            var chatterbotUrl = '{% url "chatterbot" %}';
+            var csrftoken = Cookies.get('csrftoken');
 
-      $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-          }
-        }
-      });
+            function csrfSafeMethod(method) {
+              // these HTTP methods do not require CSRF protection
+              return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
 
-      var $chatlog = $('.js-chat-log');
-      var $input = $('.js-text');
-      var $sayButton = $('.js-say');
+            $.ajaxSetup({
+              beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                  xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+              }
+            });
 
-      function createRow(text) {
-        var $row = $('<li class="list-group-item"></li>');
+            var $chatlog = $('.js-chat-log');
+            var $input = $('.js-text');
+            var $sayButton = $('.js-say');
 
-        $row.text(text);
-        $chatlog.append($row);
-      }
+            function createRow(text) {
+              var $row = $('<li class="list-group-item"></li>');
 
-      function submitInput() {
-        var inputData = {
-          'text': $input.val()
-        }
+              $row.text(text);
+              $chatlog.append($row);
+            }
 
-        // Display the user's input on the web page
-        createRow(inputData.text);
+            function submitInput() {
+              var inputData = {
+                'text': $input.val()
+              }
 
-        var $submit = $.ajax({
-          type: 'POST',
-          url: chatterbotUrl,
-          data: JSON.stringify(inputData),
-          contentType: 'application/json'
-        });
+              // Display the user's input on the web page
+              createRow(inputData.text);
 
-        $submit.done(function(statement) {
-            createRow(statement.text);
+              var $submit = $.ajax({
+                type: 'POST',
+                url: chatterbotUrl,
+                data: JSON.stringify(inputData),
+                contentType: 'application/json'
+              });
 
-            // Clear the input field
-            $input.val('');
+              $submit.done(function(statement) {
+                  createRow(statement.text);
 
-            // Scroll to the bottom of the chat interface
-            $chatlog[0].scrollTop = $chatlog[0].scrollHeight;
-        });
+                  // Clear the input field
+                  $input.val('');
 
-        $submit.fail(function() {
-          // TODO: Handle errors
-        });
-      }
+                  // Scroll to the bottom of the chat interface
+                  $chatlog[0].scrollTop = $chatlog[0].scrollHeight;
+              });
 
-      $sayButton.click(function() {
-        submitInput();
-      });
+              $submit.fail(function() {
+                // TODO: Handle errors
+              });
+            }
 
-      $input.keydown(function(event) {
-        // Submit the input when the enter button is pressed
-        if (event.keyCode == 13) {
-          submitInput();
-        }
-      });
-    </script>
-  </body>
+            $sayButton.click(function() {
+              submitInput();
+            });
+
+            $input.keydown(function(event) {
+              // Submit the input when the enter button is pressed
+              if (event.keyCode == 13) {
+                submitInput();
+              }
+            });
+        </script>
+  
+    </body>
+
 </html>
