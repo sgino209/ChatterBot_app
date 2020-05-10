@@ -50,6 +50,11 @@ Further documentation on getting set up with Django and ChatterBot can be found 
 ``` Bash
 python manage.py migrate
 ```
+OR
+``` Bash
+python manage.py migrate django_chatterbot
+```
+
 ## Train your bot
 
 ``` Bash
