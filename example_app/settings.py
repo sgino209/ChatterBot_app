@@ -40,7 +40,8 @@ CHATTERBOT = {
     ],
     'trainer': 'chatterbot.trainers.ChatterBotCorpusTrainer',
     'training_data': [
-        'chatterbot.corpus'
+        'chatterbot.corpus.english',
+        'chatterbot.corpus.hebrew'
     ]
 }
 
