@@ -35,8 +35,17 @@ INSTALLED_APPS = (
 
 CHATTERBOT = {
     'name': 'Heroku ChatterBot Example',
-    'logic_adapters' : [
-        "chatterbot.logic.BestMatch"
+    'logic_adapters': [
+        {
+            "import_path": "chatterbot.logic.BestMatch",
+            "statement_comparison_function": "chatterbot.comparisons.jaccard_similarity",
+            "response_selection_method": "chatterbot.response_selection.get_first_response"
+        },
+        {
+            'import_path': 'chatterbot.logic.LowConfidenceAdapter',
+            'threshold': 0.65,
+            'default_response': "I didn't understand that question"
+        }
     ],
     'trainer': 'chatterbot.trainers.ChatterBotCorpusTrainer',
     'training_data': [
