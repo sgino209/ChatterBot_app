@@ -123,6 +123,24 @@ heroku run python manage.py migrate
 heroku run python manage.py train
 ```
 
+### Reset
+
+``` Bash
+heroku pg:reset DATABASE
+
+heroku run python manage.py migrate
+heroku run python manage.py createsuperuser
+
+heroku run python manage.py shell
+
+>>> from chatterbot import ChatBot
+>>> from chatterbot.ext.django_chatterbot import settings
+>>> chatbot = ChatBot(**settings.CHATTERBOT)
+>>> chatbot.storage.drop()
+
+heroku run python manage.py train
+```
+
 A more detailed information can be found here https://devcenter.heroku.com/articles/deploying-python
 
 ## LICENSE
