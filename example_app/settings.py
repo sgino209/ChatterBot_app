@@ -35,6 +35,7 @@ INSTALLED_APPS = (
 
 CHATTERBOT = {
     'name': 'Heroku ChatterBot Example',
+    'read_only' = "True",
     'logic_adapters': [
         {
             "import_path": "chatterbot.logic.BestMatch",
