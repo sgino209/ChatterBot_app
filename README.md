@@ -24,8 +24,8 @@ pip3 install -r requirements.txt
 ```
 
 In case you encounter psycopg2 errors, try to:
-OSX:    % brew install postgresql
-Linux:  % sudo apt-get install build-essential
+OSX:    ``` brew install postgresql ```
+Linux:  ``` sudo apt-get install build-essential ```
 
 Generate a new Django SECRET_KEY, e.g. via https://miniwebtool.com/django-secret-key-generator
 Then:
